@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        form{
+            width: 600px;
+            margin: 0 auto;
+        }
+        .input-group{
+            margin: 10px 0;
+        }
+        label{
+            width: 100px;
+            display: inline-block;
+        }
+        .error{
+            color: red;
+            font-size: 12px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <form action="thanhcong.html" onsubmit="return valForm()">
+        <h1>ĐĂNG KÝ THÔNG TIN CÁ NHÂN</h1>
+        <div class="input-group">
+            <label for="">Tài Khoản</label>
+            <input type="text" id="taiKhoan" onchange="changeTk()">
+            <div id="tbLoiTk" class="error"></div>
+        </div>
+        <div class="input-group">
+            <label for="">Password</label>
+            <input id="password" type="password" placeholder="Password" onchange="changePassword()">
+            <p id="CheckPassword"></p>
+        </div>
+        <div class="input-group">
+            <label for="">Nhập lại password</label>
+            <input id="nhaplaipassword" type="password" placeholder="Nhập lại Password" onchange="changeNhapLaiPassword()">
+            <p id="CheckNhapLaiPassword"></p>
+        </div>
+        <div class="item">
+            <label for="">Email</label>
+            <input id="email" type="text" placeholder="Email" onchange="changeEmail()">
+            <p id="CheckEmail"></p>
+        </div>
+        <div class="input-group">
+            <label for="">Họ và tên</label>
+            <input id="hoten" type="text" placeholder="Họ tên" onchange="changeHoTen()">
+            <p id="CheckHoTen"></p>
+        </div>
+        <div class="input-group">
+            <label for="">Giới tính</label>
+            <input type="radio" name="gioi_tinh" value="Nam"/>Nam
+            <input type="radio" name="gioi_tinh" value="Nữ" />Nữ
+            <p id="checkGt"></p>
+        </div>
+        <div>
+            <label for="">Quê quán</label>
+            <select name="quequan" id="quequan">
+                <option value="">Cần Thơ</option>
+                <option value="A">Nha Trang</option>
+                <option value="B">Hà Nội</option>
+                <option value="C">tp.Hồ Chí Minh</option>
+                <option value="D">Vũng Tàu</option>
+              </select>
+           </div>
+           <div class="input-group">
+            <label for="">Sở thích</label>
+            <input type="checkbox" name="so_thich" value="Điện ảnh"/>Điện ảnh
+            <input type="checkbox" name="so_thich" value="Âm nhạc" />Âm nhạc
+            <input type="checkbox" name="so_thich" value="Thể thao" />Thể thao
+            <p id="checkSt"></p>
+        </div>
+        <div>
+            <label for="">Ghi chú cá nhân</label>
+            <textarea id="ghiChu" name="ghichu" rows="5" cols="33"></textarea>
+        </div>
+        <input type="submit" value="Lưu">
+        <button onclick="nhapLai();">Nhập lại</button>
+    </form>
+    <script>
+        let taiKhoan = document.getElementById('taiKhoan');
+        let hoten = document.getElementById('hoten'); // Biến hoten bằng thẻ input có id = hoten
+        let email = document.getElementById('email');
+        let password = document.getElementById('password');
+        let nhaplaipassword = document.getElementById('nhaplaipassword');
+        function nhapLai(){
+            hoten.value = '';
+            email.value = '';
+            password.value = '';
+            nhaplaipassword.value = '';
+        }
+        function changeTk(){
+            if(taiKhoan.value.length >= 8){
+                document.getElementById('tbLoiTk').innerText = '';
+            }
+        }
+        function changeHoTen(){
+            if(hoten.value != ''){
+                document.getElementById('CheckHoTen').innerText = '';
+            }
+        }
+        
+        function changeEmail(){
+            var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/; 
+            if(filter.test(email.value)){
+               document.getElementById('CheckEmail').innerText = '';
+            }
+        }
+        function changePassword(){
+            if(password.value != '' && password.value.length >= 8){
+               document.getElementById('CheckPassword').innerText = '';
+            }
+        }
+        function changeNhapLaiPassword(){
+            if(nhaplaipassword.value == nhaplaipassword.value){
+               document.getElementById('CheckNhapLaiPassword').innerText = '';
+            }
+        }
+        function valForm(){
+            if(taiKhoan.value.length < 8){
+                document.getElementById('tbLoiTk').innerText = 'phải nhập tài khoản';
+                return false;
+            }
+            //Kiểm tra password nhập vào phải có ít nhất 8 kí tự
+            // password.value.length trả về độ dài của password
+            if(password.value == '' || password.value.length < 8){
+               document.getElementById('CheckPassword').innerText = 'Password phải có ít nhất 8 ký tự';
+                return false;
+            }
+            // Nhập lại password phải giống hệt như password
+            if(nhaplaipassword.value != password.value){
+               document.getElementById('CheckNhapLaiPassword').innerText = 'Password nhập lại phải giống password ở trên';
+                return false;
+            }
+            var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/; 
+            if (!filter.test(email.value)){
+                var checkEmail = document.getElementById("KiemLoiEmail");
+                checkEmail.innerHTML = "* Email phải gồm @ và . ví dụ: anhhn@gmail.com";
+                return false;
+            }
+            // Cách 2
+            // if(email.value == '' || !email.value.includes('@') || !email.value.includes('.')){
+            //    document.getElementById('KiemLoiEmail').innerText = 'Email phải bao gồm @ và dấu chấm';
+            //     return false;
+            // }
+            if(hoten.value.length == 0){
+               document.getElementById('CheckHoTen').innerText = 'Họ tên không được để trống';
+                return false; // trả về giá trị là false cho hàm valForm, dữ liệu ko được đây lên sever
+            }
+            var radios = document.getElementsByName("gioi_tinh");
+            if(!radios[0].checked && !radios[1].checked){
+                document.getElementById('checkGt').innerText = 'Vui lòng chọn giới tính';
+                return false;
+            }
+            var so_thich = document.getElementsByName('so_thich');
+            if(!so_thich[0].checked && !so_thich[1].checked && !so_thich[2].checked){
+                document.getElementById('checkSt').innerText = 'Vui lòng chọn sở thích';
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>

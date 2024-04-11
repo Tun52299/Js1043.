@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        img{
+            width: 500px;
+            height: 300px;
+        }
+        .dots{
+           
+            margin: 10px 0;
+        }
+        .content{
+            width: 650px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .dot{
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            margin: 0 5px;
+            display: inline-block;
+            background: #ddd;
+        }
+    </style>
+</head>
+<body onload="loadAnh();">
+    <div class="content">
+        <img id = "anh" src="anh0.jpg" alt="" />
+        <br>
+        <div class="dots">
+            <span class="dot" onclick="dot(0)"></span>
+            <span class="dot" onclick="dot(1)"></span>
+            <span class="dot" onclick="dot(2)"></span>
+            <span class="dot" onclick="dot(3)"></span>
+            <span class="dot" onclick="dot(4)"></span>
+            <span class="dot" onclick="dot(4)"></span>
+        </div>
+        <button id="first" onclick="firstImage()" style = "width: 100px;height: 50px;">First</button>
+        <button id="prev" onclick="prevImage()" style = "width: 100px;height: 50px;">Prev</button>
+        <button id="stop" onclick="stopImage()" style = "width: 100px;height: 50px;">Stop</button>
+        <button id="start" onclick="startImage()" style = "width: 100px;height: 50px;">Start</button>
+        <button id="next" onclick="nextImage()" style = "width: 100px;height: 50px;">Next</button>
+        <button id="last" onclick="lastImage()" style = "width: 100px;height: 50px;">Last</button>
+
+    </div>
+    <script>
+        var anhArr = [];
+        var currencyIndex = 0;
+       
+        function loadAnh(){
+            for ( var i = 0 ; i < 6 ; i++){
+                anhArr[i] = new Image();
+                anhArr[i].src = "anh" + i + ".jpg";
+              //  console.log(anhArr[i].src);
+            }
+        }
+        function dot(index){
+            currencyIndex = index;
+            document.getElementById("anh").src = anhArr[currencyIndex].src;
+        }
+        function nextImage(){
+            if (currencyIndex < anhArr.length - 1){
+                currencyIndex ++;
+                document.getElementById("anh").src = anhArr[currencyIndex].src;
+            }
+            else{
+                currencyIndex = 0;
+                document.getElementById("anh").src = anhArr[currencyIndex].src;
+            }
+        }
+        function prevImage(){
+            if (currencyIndex > 0){
+                currencyIndex --;
+                document.getElementById("anh").src = anhArr[currencyIndex].src;
+            }
+            else{
+                currencyIndex = anhArr.length - 1;
+                document.getElementById("anh").src = anhArr[currencyIndex].src;
+            }
+        }
+        let x;
+        // chạy ảnh
+       // x = setInterval(nextImage,1000);
+        function startImage(){
+            x = setInterval(nextImage,1000);
+        }
+        // dừng ảnh
+        function stopImage(){
+            clearInterval(x);
+        }
+    </script>
+</body>
+</html>
